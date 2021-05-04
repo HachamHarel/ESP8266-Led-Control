@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+
+<head>
+    <title>ESP32 Web Server</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Cache-control" content="public">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="globalScripts.js"></script>
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Input Range Slider</title>
+
+</head>
+
+<body>
+
+    <div id="loader"></div>
+    <script>
+        function ready() {
+            const formData = new FormData();
+            formData.append("status", "check");
+
+            const options = {
+                method: 'POST',
+                body: formData
+            }
+
+            fetch("/ledstatus", options)
+                .then((response) => {
+                    if (response.headers.get("led-status") == "on") {
+                        document.getElementById("on-off-switch").checked = true;
+                        document.getElementById("rangeSlideWrapper").style.display = "block";
+                        console.log("led is on");
+                    }
+                    else {
+                        document.getElementById("on-off-switch").checked = false;
+                        document.getElementById("rangeSlideWrapper").style.display = "none";
+                        console.log("led is off");
+                    }
+                });
+        }
+
+        document.addEventListener("DOMContentLoaded", ready);
+    </script>
+
+    <div class="mainMenue">
+        <script src="menue.js"></script>
+        <div w3-include-html="dropdown.html"></div>
+        <script>
+            includeHTML();
+        </script>
+    </div>
+
+    <div class="row">
+        <h1>Led-Control</h1>
+    </div>
+
+    <div class="wrapper">
+        <input type="checkbox" name="checkbox" class="switch" id="on-off-switch">
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+
+        var checkbox = document.querySelector("input[name=checkbox]");
+        checkbox.addEventListener('change', function () {
+            var x = document.getElementById("rangeSlideWrapper");
+            if (this.checked) {
+                postParam("/", "ledState", "on");
+                x.style.display = "block";
+                console.log("Checkbox is checked..");
+            } else {
+                x.style.display = "none";
+                postParam("/", "ledState", "off");
+                console.log("Checkbox is not checked..");
+            }
+        });
+
+        document.addEventListener('click', clickev);
+        function clickev(event) { console.log(event.target) }
+
+    </script>
+
+    <div class="rangeSlideWrapper" id="rangeSlideWrapper">
+        <p>Brightness</p>
+        <span id="rangeValue">128</span>
+        <Input class="range" type="range" value="128" min="0" max="255" onChange="rangeSlide(this.value)"
+            onClick="sliderPostParam(this.value)" onmousemove="rangeSlide(this.value)"></Input>
+    </div>
+
+    <script type="text/javascript">
+        function rangeSlide(value) {
+            document.getElementById('rangeValue').innerHTML = value;
+        }
+        function sliderPostParam(value) {
+            postParam("/", "brightness", value);
+        }
+
+    </script>
+
+</body>
+
+
+</html>

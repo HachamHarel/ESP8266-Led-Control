@@ -1,0 +1,19 @@
+<link rel="stylesheet" type="text/css" href="navbar.css">
+
+<div class="navbar">
+    <a href="/">Home</a>
+    <a href="/rgbpicker">RGB-Picker</a>
+    <div class="dropdown">
+      <button class="dropbtn">Pre-Made modes 
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-content">
+        <!-- <a href="#">Link 1</a> -->
+        <button value="rainbow" onclick="postLedMode('rainbow')">Rainbow</button>
+        <button value="theater" onclick="postLedMode('theater')">Theater</button>
+        <button value="theaterrainbow" onclick="postLedMode('theaterrainbow')">Theater Rainbow</button>
+        <button value="colorwipe" onclick="postLedMode('colorwipe')">Color Wipe</button>
+      </div>
+    </div> 
+    <a href="/contact">About Me</a>
+  </div>

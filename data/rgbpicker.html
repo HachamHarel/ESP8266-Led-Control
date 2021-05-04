@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<head>
+    <title>ESP32 Web Server</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="globalScripts.js"></script>
+
+</head>
+
+<body>
+    <div class="mainMenue">
+        <script src="menue.js"></script>
+        <div w3-include-html="dropdown.html"></div>
+        <script>
+            includeHTML();
+        </script>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <h1>ESP Color Picker</h1>
+        </div>
+    </div>
+
+
+    <div class="loadingContainer" id="loadingContainer">
+        <div class="yellow"></div>
+        <div class="red"></div>
+        <div class="blue"></div>
+        <div class="violet"></div>
+    </div>
+
+    </div>
+    <p>
+    <div class="wheel" id="colorWheel"></div>
+    </p>
+    </div>
+
+
+    <script src="jscolor.js"></script>
+    <script>
+
+        var colorWheel = new iro.ColorPicker("#colorWheel", {
+
+            layout: [
+                {
+                    component: iro.ui.Wheel,
+                    options: {
+                        wheelLightness: true,
+                        wheelAngle: 0,
+                        wheelDirection: "anticlockwise"
+                    }
+                },
+                {
+                    component: iro.ui.Slider,
+                    options: {
+                        sliderType: 'saturation' // can also be 'saturation', 'value', 'alpha' or 'kelvin',
+                    }
+                },
+                {
+                    component: iro.ui.Slider,
+                    options: {
+                        sliderType: 'value' // can also be 'saturation', 'value', 'alpha' or 'kelvin',
+                    }
+                }
+
+
+            ]
+        });
+
+        colorWheel.on('input:end', function (color) {
+            console.log(colorWheel.color);
+            postParam("/rgbpicker", "color", parseInt("0x" + colorWheel.color.hexString.slice(1,)));
+        })
+
+        document.addEventListener('click', clickev);
+        function clickev(event) { console.log(event.target) }
+
+        function sleep(milliseconds) {
+            const date = Date.now();
+            let currentDate = null;
+            do {
+                currentDate = Date.now();
+            } while (currentDate - date < milliseconds);
+        }
+
+        function showWheel() {
+            var colorWheel = document.getElementById("colorWheel");
+            var loadingContainer = document.getElementById("loadingContainer");
+            colorWheel.style.display = "flex";
+            loadingContainer.style.display = "none";
+            console.log("done");
+        }
+
+
+
+        document.addEventListener("DOMContentLoaded", showWheel());
+
+    </script>
+
+</body>
+
+
+</html>
