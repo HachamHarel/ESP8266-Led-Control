@@ -5,10 +5,7 @@
 #include <ESP8266WiFi.h>
 #include "led.h"
 #include <string.h>
-
-// Replace with your network credentials
-const char *ssid = "******";
-const char *password = "*******";
+#include "credentials.h"
 const char *PARAM_MESSAGE = "message";
 
 enum ledStatus

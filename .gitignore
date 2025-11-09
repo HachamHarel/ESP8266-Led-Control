@@ -3,3 +3,23 @@
 .vscode/c_cpp_properties.json
 .vscode/launch.json
 .vscode/ipch
+
+# Credentials and secrets
+credentials.h
+config.h
+secrets.h
+*.env
+.env.*
+
+# Private keys and certificates
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+
+# Backup files that might contain sensitive data
+*.bak
+*.backup
+*~
